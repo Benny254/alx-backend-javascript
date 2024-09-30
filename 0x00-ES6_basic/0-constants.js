@@ -1,15 +1,15 @@
 export function taskFirst() {
-  const task = 'Using const is ideal when variables are immutable.';
+  const task = 'I prefer const when I can.';
   return task;
 }
 
 export function getLast() {
-  return ' can be useful in certain cases.';
+  return ' is okay';
 }
 
 export function taskNext() {
-  let sentence = 'However, using let';
-  sentence += getLast();
+  let combination = 'But sometimes let';
+  combination += getLast();
 
-  return sentence;
+  return combination;
 }
