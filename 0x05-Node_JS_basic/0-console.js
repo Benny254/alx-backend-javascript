@@ -1,10 +1,3 @@
-/**
-  * Function: displayMessage
-   * Description: Prints the provided string argument to STDOUT.
-    * @param {string} message - The message to be displayed.
-     */
-     function displayMessage(message) {
-         console.log(message);
-         }
+const displayMessage = (str) => console.log(str);
 
-         displayMessage("Hello, World!");         
+module.exports = displayMessage;
