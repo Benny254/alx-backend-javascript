@@ -1,31 +1,28 @@
+
 const fs = require('fs');
 
-async function countStudents (path) {
-	  if (fs.existsSync(path)) {
-		      return new Promise((resolve) => {
-			            fs.readFile(path, 'utf8', (err, data) => {
-					            if (err) {
-							              throw Error('Cannot load the database');
-							            }
-					            const result = [];
-					            data.split('\n').forEach((data) => {
-							              result.push(data.split(','));
+function countStudents(path) {
+	  const promise = (res, rej) => {
+		      fs.readFile(path, (err, data) => {
+			            if (err) rej(Error('Cannot load the database'));
+			            if (data) {
+					            let newData = data.toString().split('\n');
+					            newData = newData.slice(1, newData.length - 1);
+					            console.log(`Number of students: ${newData.length}`);
+					            const obj = {};
+					            newData.forEach((el) => {
+							              const student = el.split(',');
+							              if (!obj[student[3]]) obj[student[3]] = [];
+							              obj[student[3]].push(student[0]);
 							            });
-					            result.shift();
-					            const newis = [];
-					            result.forEach((data) => newis.push([data[0], data[3]]));
-					            const fields = new Set();
-					            newis.forEach((item) => fields.add(item[1]));
-					            const final = {};
-					            fields.forEach((data) => { (final[data] = 0); });
-					            newis.forEach((data) => { (final[data[1]] += 1); });
-					            console.log(`Number of students: ${result.filter((check) => check.length > 3).length}`);
-					            Object.keys(final).forEach((data) => console.log(`Number of students in ${data}: ${final[data]}. List: ${newis.filter((n) => n[1] === data).map((n) => n[0]).join(', ')}`));
-					            resolve(result, final, newis);
-					          });
+					            for (const cls in obj) {
+							              if (cls) console.log(`Number of students in ${cls}: ${obj[cls].length}. List: ${obj[cls].join(', ')}`);
+							            }
+					          }
+			            res();
 			          });
-		    }
-	  throw Error('Cannot load the database');
+		    };
+	  return new Promise(promise);
 }
 
 module.exports = countStudents;
